@@ -1,5 +1,5 @@
 ---
-title: Good code and stories are hard to write
+title: Software development and cloud engineering
 ---
 
-The time it takes for german algorithm professors to eat $N$ sausages and $M$ cheeses is $O(N+M)$ in Wurst Käse.
+I sometimes write about some small stuff that I have found intersting in software development, cloud engineering or in a topic that I find interesting.
