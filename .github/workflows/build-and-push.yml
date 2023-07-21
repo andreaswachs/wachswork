@@ -21,7 +21,7 @@ jobs:
         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           
     - name: Build the Docker image
-      run: docker buildx build . --file Dockerfile --tag andreaswachs/wachswork:$(date +%s) --t andreaswachs/wachswork:latest --push
+      run: docker buildx build . --file Dockerfile -t andreaswachs/wachswork:$(date +%s) -t andreaswachs/wachswork:latest --push
       
       
       
