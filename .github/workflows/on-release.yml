@@ -25,7 +25,9 @@ jobs:
           hugo -t hugo-winston-theme --minify
 
     - name: Compress website
-      run: tar -czf website.tar.gz $GITHUB_WORKSPACE/src/public
+      run: |
+        tar -czf website.tar.gz $GITHUB_WORKSPACE/src/public
+        tar -tf website.tar.gz
 
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
