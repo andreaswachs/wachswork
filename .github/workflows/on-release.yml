@@ -26,9 +26,9 @@ jobs:
 
     - name: Compress website
       run: |
-        cd $GITHUB_WORKSPACE/src/public
-        tar -czf ../website.tar.gz .
-        tar -tf ../website.tar.gz
+        cd $GITHUB_WORKSPACE/src/
+        tar -czf website.tar.gz public
+        tar -tf website.tar.gz
 
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
