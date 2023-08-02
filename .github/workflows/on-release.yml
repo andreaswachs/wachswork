@@ -29,12 +29,13 @@ jobs:
         cd $GITHUB_WORKSPACE/src/
         tar -czf website.tar.gz public
         tar -tf website.tar.gz
+        mv website.tar.gz $GITHUB_WORKSPACE
 
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: $GITHUB_WORKSPACE/src/website.tar.gz
+        file: website.tar.gz
         asset_name: website.tar.gz
         tag: ${{ github.ref }}
         overwrite: true
