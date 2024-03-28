@@ -1,0 +1,26 @@
+name: Build website on PR
+
+on:
+  pull_request
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build only 
+      working-dir: src
+      uses: shalzz/zola-deploy-action@v0.18.0
+      env:
+        BUILD_DIR: .
+        BUILD_ONLY: true
+
+    - name: Compress website
+      working-dir: src
+      run: |
+        tar -czf website.tar.gz public
+        tar -tf website.tar.gz
+
