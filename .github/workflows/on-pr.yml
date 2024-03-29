@@ -23,3 +23,6 @@ jobs:
         tar -czf website.tar.gz public
         tar -tf website.tar.gz
 
+    - name: Verify that the tar file is created
+      run: |
+        ls src | grep website.tar.gz

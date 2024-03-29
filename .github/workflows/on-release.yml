@@ -20,15 +20,14 @@ jobs:
         extended: true
 
     - name: Build only 
-      working-dir: src
       uses: shalzz/zola-deploy-action@v0.18.0
       env:
-        BUILD_DIR: .
+        BUILD_DIR: src
         BUILD_ONLY: true
 
     - name: Compress website
-      working-dir: src
       run: |
+        cd src
         tar -czf website.tar.gz public
         tar -tf website.tar.gz
         mv website.tar.gz $GITHUB_WORKSPACE
