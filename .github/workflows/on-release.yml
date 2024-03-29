@@ -19,14 +19,15 @@ jobs:
         hugo-version: '0.115.0'
         extended: true
 
-    - name: Build website
-      run: |
-          cd $GITHUB_WORKSPACE/src
-          hugo -t hugo-winston-theme --minify
+    - name: Build only 
+      uses: shalzz/zola-deploy-action@v0.18.0
+      env:
+        BUILD_DIR: src
+        BUILD_ONLY: true
 
     - name: Compress website
       run: |
-        cd $GITHUB_WORKSPACE/src/
+        cd src
         tar -czf website.tar.gz public
         tar -tf website.tar.gz
         mv website.tar.gz $GITHUB_WORKSPACE
