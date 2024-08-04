@@ -40,6 +40,10 @@ jobs:
         env:
           BUILD_DIR: src
           BUILD_ONLY: true
+
+      - run: find .
+        shell: bash
+        name: debug
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
