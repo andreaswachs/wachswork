@@ -2,6 +2,9 @@ theme = "anemone"
 
 # The URL the site will be built for
 base_url = "https://wachs.work"
+title = "wachs.work"
+description = "Personal blog of Andreas Wachs."
+generate_feed = true
 
 default_language = "en"
 

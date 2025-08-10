@@ -2,41 +2,45 @@ name: Build and attach website to release
 
 on:
   push:
-    tags:
-      - '*'
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
-    name: Publish binaries
+    name: Build and release website
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Setup Hugo
-      uses: peaceiris/actions-hugo@v2
-      with:
-        hugo-version: '0.115.0'
-        extended: true
+      # Zola build only; no Hugo needed
+      - name: Build site with Zola
+        uses: shalzz/zola-deploy-action@v0.18.0
+        env:
+          BUILD_DIR: src
+          BUILD_ONLY: true
 
-    - name: Build only 
-      uses: shalzz/zola-deploy-action@v0.18.0
-      env:
-        BUILD_DIR: src
-        BUILD_ONLY: true
+      - name: Compute release date (UTC)
+        run: echo "RELEASE_DATE=$(date -u +%F)" >> $GITHUB_ENV
 
-    - name: Compress website
-      run: |
-        cd src
-        tar -czf website.tar.gz public
-        tar -tf website.tar.gz
-        mv website.tar.gz $GITHUB_WORKSPACE
+      - name: Archive website
+        run: |
+          tar -czf website-${RELEASE_DATE}.tar.gz -C src public
+          tar -tf website-${RELEASE_DATE}.tar.gz | head -n 10
 
-    - name: Upload binaries to release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: website.tar.gz
-        asset_name: website.tar.gz
-        tag: ${{ github.ref }}
-        overwrite: true
+      - name: Create GitHub Release and upload asset
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: website-${{ env.RELEASE_DATE }}.tar.gz
+          asset_name: website-${{ env.RELEASE_DATE }}.tar.gz
+          tag: ${{ env.RELEASE_DATE }}
+          release_name: ${{ env.RELEASE_DATE }}
+          overwrite: true
+          body: |
+            Static site build for ${{ env.RELEASE_DATE }}.
+            - Base URL: https://wachs.work
+            - Built with Zola from src/
