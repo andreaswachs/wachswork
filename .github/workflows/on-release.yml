@@ -28,15 +28,15 @@ jobs:
 
       - name: Archive website
         run: |
-          tar -czf website-${RELEASE_DATE}.tar.gz -C src public
-          tar -tf website-${RELEASE_DATE}.tar.gz | head -n 10
+          tar -czf website.tar.gz -C src public
+          tar -tf website.tar.gz | head -n 10
 
       - name: Create GitHub Release and upload asset
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: website-${{ env.RELEASE_DATE }}.tar.gz
-          asset_name: website-${{ env.RELEASE_DATE }}.tar.gz
+          file: website.tar.gz
+          asset_name: website.tar.gz
           tag: ${{ env.RELEASE_DATE }}
           release_name: ${{ env.RELEASE_DATE }}
           overwrite: true
